@@ -41,7 +41,6 @@ class ForeignKey extends Migration
            ->onUpdate('cascade')
            ->onDelete('cascade');
         });
-        
     }
 
     /**
