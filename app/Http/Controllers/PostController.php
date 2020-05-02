@@ -15,6 +15,8 @@ class PostController extends Controller
     public function index()
     {
         //
+        $posts = Post::latest()->get();
+        return response()->json($posts);
     }
 
     /**

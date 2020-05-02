@@ -2,10 +2,10 @@
 
 @section('content')
 <!-- Page Content -->
-<div class="container intro-container">
+  <div class="container intro-container">
 
     <div class="row">
-
+      <home></home>
       <!-- Blog Entries Column -->
       <div class="col-md-8">
 
