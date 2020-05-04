@@ -1957,10 +1957,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      posts: {}
+      posts: []
     };
   },
   mounted: function mounted() {
@@ -1969,8 +1973,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getPosts: function getPosts() {
+      var _this = this;
+
       axios.get('/api/posts').then(function (res) {
-        return console.log(res);
+        _this.posts = res.data;
       }).then(function (err) {
         return console.log(err);
       });
@@ -37671,30 +37677,63 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v("\n                   home component\n                ")
+  return _c(
+    "div",
+    {},
+    _vm._l(_vm.posts, function(post) {
+      return _c("div", { key: post.id, staticClass: "media simple-post" }, [
+        _c("img", {
+          staticClass: "mr-3",
+          attrs: { src: "img/" + post.image, alt: "Generic placeholder image" }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "media-body" }, [
+          _c("h4", { staticClass: "mt-0" }, [
+            _c("a", { attrs: { href: "/post/" + post.slug } }, [
+              _vm._v("title")
             ])
-          ])
+          ]),
+          _vm._v(
+            "\n         " + _vm._s(post.body.substr(0, 150)) + "\n        "
+          ),
+          _c(
+            "ul",
+            { staticClass: "list-inline list-unstyled d-flex post-info" },
+            [
+              _c("li", [
+                _c("span", [
+                  _c("i", { staticClass: "fa fa-user" }),
+                  _vm._v(" posted by : "),
+                  _c("strong", { staticClass: "text-primary" }, [
+                    _vm._v(_vm._s(post.user.name))
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("li", [_vm._v("|")]),
+              _vm._v(" "),
+              _c("li", [
+                _c("span", [
+                  _c("i", { staticClass: "fa fa-calendar" }),
+                  _vm._v(_vm._s(post.added_at))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("li", [_vm._v("|")]),
+              _vm._v(" "),
+              _c("span", [
+                _c("i", { staticClass: "fa fa-comment" }),
+                _vm._v(" " + _vm._s(post.comments_count) + " comments")
+              ])
+            ]
+          )
         ])
       ])
-    ])
-  }
-]
+    }),
+    0
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

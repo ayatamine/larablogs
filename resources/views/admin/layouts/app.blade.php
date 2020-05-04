@@ -27,7 +27,7 @@
   <link rel="/stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 </head>
 <body>
-    <div id="app">
+    <div id="app2">
          <!-- Page Content -->
         <div class="wrapper">
             @include('admin.layouts.sidebar')
