@@ -2,7 +2,7 @@
 
 @section('content')
  <!-- Page Content -->
- <div class="container">
+ <div class="container intro-container">
 
     <div class="row">
 
@@ -13,9 +13,9 @@
         <h1 class="mt-4">Post Title</h1>
 
         <!-- Author -->
-        <p class="lead">
-          by
-          <a href="#">Start Bootstrap</a>
+        <p class=" alert alert-info" style="width: fit-content;
+        padding: 5px;
+        color: #142d31;" >Start Bootstrap
         </p>
 
         <hr>
@@ -27,7 +27,7 @@
         <hr>
 
         <!-- Preview Image -->
-        <img class="img-fluid rounded" src="img/p1.jpg" style="width:900px;max-height:300px" alt="">
+        <img class="img-fluid rounded" src="{{asset('img/p1.jpg')}}" style="width:900px;max-height:300px" alt="">
 
         <hr>
 

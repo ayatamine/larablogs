@@ -21,6 +21,10 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
     public function comments(){
-        return $this->hasMany(Comment::class);
+        $comments = $this->hasMany(Comment::class);
+        foreach ($comments as $c) {
+            $c->setAttribute('added_at',$c->created_at->diffForHumans());
+        }
+        return $comments;
     }
 }
