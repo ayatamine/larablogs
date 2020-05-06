@@ -14,7 +14,7 @@
         </h1>
 
         <!-- Blog Post -->
-        <home></home>
+        <global-home></global-home>
        
 
         <!-- Pagination -->
