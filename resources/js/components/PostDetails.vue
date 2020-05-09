@@ -1,47 +1,31 @@
 <template>
   <div>
-    <div class="col-lg-8">
+    <div class="">
 
         <!-- Title -->
-        <h1 class="mt-4">Post Title</h1>
+        <h1 class="mt-4">{{post.title}}</h1>
 
         <!-- Author -->
         <p class=" alert alert-info" style="width: fit-content;
         padding: 5px;
-        color: #142d31;" >Start Bootstrap
+        color: #142d31;" >{{post.category.name}}
         </p>
 
         <hr>
 
         <!-- Date/Time -->
-        <p>Posted on <strong class="badge badge-primary p-1">January 1, 2019</strong> at <strong class="badge badge-danger p-1"> 12:00 PM</strong>
-            <span class="float-right"><strong class="badge badge-info p-1">22</strong> comments</span></p>
-    
+        <p>Posted on <strong class="badge badge-primary p-1">{{post.added_at}}</strong>
+            <span class="float-right"><strong class="badge badge-info p-1">{{post.comments_count}}</strong> comments</span></p>
+
         <hr>
 
         <!-- Preview Image -->
-        <img class="img-fluid rounded" src="{{asset('img/p1.jpg')}}" style="width:900px;max-height:300px" alt="">
+        <img class="img-fluid rounded" :src="'/img/'+post.image" style="width:900px;max-height:300px" alt="">
 
         <hr>
 
         <!-- Post Content -->
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?</p>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
-
-        <blockquote class="blockquote">
-          <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-          <footer class="blockquote-footer">Someone famous in
-            <cite title="Source Title">Source Title</cite>
-          </footer>
-        </blockquote>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
-
+       {{post.body}}
         <hr>
 
         <!-- Comments Form -->
@@ -58,39 +42,15 @@
         </div>
 
         <!-- Single Comment -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+        <div class="media mb-4" v-for="(comment,i) in post.comments" :key="i">
+          <img class="d-flex mr-3 rounded-circle" :src="'/img/'+comment.user.profile_img" style="height:50px;width:50px" alt="">
           <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            <h5 class="mt-0"><strong>{{comment.user.name}}</strong></h5>
+            {{comment.body}}
           </div>
         </div>
 
-        <!-- Comment with nested comments -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-          <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
 
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>
-            </div>
-
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>
-            </div>
-
-          </div>
-        </div>
 
       </div>
   </div>
@@ -111,6 +71,7 @@ export default {
       axios.get('/api/posts/'+this.$route.params.slug)
       .then(res =>{
         console.log(res)
+        this.post = res.data
       })
       .catch(err =>{
         console.log(err)

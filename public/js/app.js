@@ -2016,46 +2016,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2067,8 +2027,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getPost: function getPost() {
+      var _this = this;
+
       axios.get('/api/posts/' + this.$route.params.slug).then(function (res) {
         console.log(res);
+        _this.post = res.data;
       })["catch"](function (err) {
         console.log(err);
       });
@@ -37845,8 +37808,110 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function () {}
-var staticRenderFns = []
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {},
+      [
+        _c("h1", { staticClass: "mt-4" }, [_vm._v(_vm._s(_vm.post.title))]),
+        _vm._v(" "),
+        _c(
+          "p",
+          {
+            staticClass: " alert alert-info",
+            staticStyle: {
+              width: "fit-content",
+              padding: "5px",
+              color: "#142d31"
+            }
+          },
+          [_vm._v(_vm._s(_vm.post.category.name) + "\n      ")]
+        ),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v("Posted on "),
+          _c("strong", { staticClass: "badge badge-primary p-1" }, [
+            _vm._v(_vm._s(_vm.post.added_at))
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "float-right" }, [
+            _c("strong", { staticClass: "badge badge-info p-1" }, [
+              _vm._v(_vm._s(_vm.post.comments_count))
+            ]),
+            _vm._v(" comments")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("img", {
+          staticClass: "img-fluid rounded",
+          staticStyle: { width: "900px", "max-height": "300px" },
+          attrs: { src: "/img/" + _vm.post.image, alt: "" }
+        }),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _vm._v("\n     " + _vm._s(_vm.post.body) + "\n      "),
+        _c("hr"),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._l(_vm.post.comments, function(comment, i) {
+          return _c("div", { key: i, staticClass: "media mb-4" }, [
+            _c("img", {
+              staticClass: "d-flex mr-3 rounded-circle",
+              staticStyle: { height: "50px", width: "50px" },
+              attrs: { src: "/img/" + comment.user.profile_img, alt: "" }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "media-body" }, [
+              _c("h5", { staticClass: "mt-0" }, [
+                _c("strong", [_vm._v(_vm._s(comment.user.name))])
+              ]),
+              _vm._v("\n          " + _vm._s(comment.body) + "\n        ")
+            ])
+          ])
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card my-4" }, [
+      _c("h5", { staticClass: "card-header" }, [_vm._v("Leave a Comment:")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c("form", [
+          _c("div", { staticClass: "form-group" }, [
+            _c("textarea", {
+              staticClass: "form-control",
+              attrs: { rows: "3" }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+            [_vm._v("Submit")]
+          )
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
 
 
 
