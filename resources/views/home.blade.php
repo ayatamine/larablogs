@@ -3,9 +3,9 @@
 @section('content')
 <!-- Page Content -->
   <div class="container intro-container">
+    <global-home></global-home>
+   {{--  <div class="row">
 
-    <div class="row">
-      
       <!-- Blog Entries Column -->
       <div class="col-md-8">
 
@@ -14,8 +14,8 @@
         </h1>
 
         <!-- Blog Post -->
-        <global-home></global-home>
-       
+
+
 
         <!-- Pagination -->
         <nav aria-label="...">
@@ -71,7 +71,7 @@
                   <li>
                     <a href="#">Freebies </a>
                   </li>
-                  
+
                 </ul>
               </div>
               <div class="col-lg-6">
@@ -91,10 +91,10 @@
           </div>
         </div>
 
-      
+
       </div>
 
-    </div>
+    </div> --}}
     <!-- /.row -->
 
   </div>

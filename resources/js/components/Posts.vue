@@ -1,5 +1,6 @@
 <template>
-    <div class="">
+ <div class="row">
+    <div class="col-md-8">
         <div class="media simple-post" v-for="post in posts" :key="post.id">
           <img class="mr-3" :src="'img/'+post.image" alt="Generic placeholder image">
           <div class="media-body">
@@ -13,19 +14,45 @@
                   <li><span><i class="fa fa-calendar"></i>{{post.added_at}}</span></li>
                   <li>|</li>
                   <span><i class="fa fa-comment"></i> {{post.comments_count}} comments</span>
-                  
+
             </ul>
           </div>
         </div>
     </div>
+     <!-- Sidebar Widgets Column -->
+      <div class="col-md-4">
+
+        <!-- Search Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Search</h5>
+          <div class="card-body">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button">Go!</button>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categories Widget -->
+        <categories></categories>
+
+
+      </div>
+ </div>
 </template>
 
 <script>
+import categories from './Categories.vue'
     export default {
         data(){
             return{
                 posts:[]
             }
+        },
+        components :{
+            categories
         },
         mounted() {
             console.log('Component mounted.')

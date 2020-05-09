@@ -8,7 +8,7 @@
         <!-- Author -->
         <p class=" alert alert-info" style="width: fit-content;
         padding: 5px;
-        color: #142d31;" >{{post.category.name}}
+        color: #142d31;" v-if="post.category">{{post.category.name}}
         </p>
 
         <hr>

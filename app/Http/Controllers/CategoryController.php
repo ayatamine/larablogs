@@ -14,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+       $categories = Category::has('posts')->get();
+       return response()->json($categories);
     }
 
     /**
