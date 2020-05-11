@@ -6,7 +6,7 @@
               <div class="col-lg-6">
                 <ul class="list-unstyled mb-0" v-if="categories.length > 0">
                   <li v-for="(category,index) in categories" :key="index">
-                    <router-link :to="'#'">{{category.name}}</router-link>
+                    <router-link :to="`category/${category.slug}/posts`">{{category.name}}</router-link>
                   </li>
 
                 </ul>

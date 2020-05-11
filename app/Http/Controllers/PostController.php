@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Category;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -62,7 +63,16 @@ class PostController extends Controller
             'user'=>$post->user,
             'title'=>$post->title,
             'category'=>$post->category,
-            'comments'=>$this->commentsFormatted($post->comments)
+            'comments'=>$post->comments->map(function ($comment) {
+                return [
+                    'id'=>$comment->id,
+                    'body'=>$comment->body,
+                    'user'=>$comment->user,
+                    'added_at'=>$comment->created_at->diffForHumans()
+                ];
+            })
+
+           /*  'comments'=>$this->commentsFormatted($post->comments) */
         ]);
     }
     public function commentsFormatted($comments){
@@ -111,6 +121,15 @@ class PostController extends Controller
     {
         //
     }
+    public function categoryPosts($slug){
+        $category = Category::whereSlug($slug)->first();
+        $posts = Post::whereCategoryId($category->id)->with('user')->get();
+        foreach($posts as $post){
+            $post->setAttribute('added_at',$post->created_at->diffForHumans());
+            $post->setAttribute('comments_count',$post->comments->count());
+        }
+        return response()->json($posts);
+    }
 
-    
+
 }
