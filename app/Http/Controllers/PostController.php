@@ -130,6 +130,14 @@ class PostController extends Controller
         }
         return response()->json($posts);
     }
+    public function searchposts($query){
+        $posts = Post::where('title','like','%'.$query.'%')->with('user')->get();
+        foreach($posts as $post){
+            $post->setAttribute('added_at',$post->created_at->diffForHumans());
+            $post->setAttribute('comments_count',$post->comments->count());
+        }
+        return response()->json($posts);
+    }
 
 
 }
