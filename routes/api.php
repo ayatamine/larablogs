@@ -21,4 +21,10 @@ Route::apiResource('posts','PostController');
 Route::apiResource('categories','CategoryController');
 Route::get('category/{slug}/posts','PostController@categoryPosts');
 Route::get('searchposts/{query}','PostController@searchposts');
+Route::post('login', 'UserController@login');
+Route::post('register', 'UserController@register');
+Route::middleware('auth:api')->group(function () {
+    Route::get('user', 'UserController@details');
+
+});
 

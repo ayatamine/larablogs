@@ -15,7 +15,7 @@
     return view('welcome');
 }); */
 
-Auth::routes();
+/* Auth::routes(); */
 
 Route::get('/', 'HomeController@index')->name('home');
 /* Route::get('post/{slug}',function(){
