@@ -18,7 +18,8 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'profile_img'=>'profile_img1.jpg',
+            'profile => bcrypt($request->password)
         ]);
 
         $token = $user->createToken('programingVh')->accessToken;
