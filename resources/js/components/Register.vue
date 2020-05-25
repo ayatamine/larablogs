@@ -13,17 +13,17 @@
           <form action="/examples/actions/confirmation.php" method="post" nonvalidate>
               <h2 class="text-center">Create New Account</h2>
               <div class="form-group">
-                  <input type="text" class="form-control" placeholder="firstname" v-model="firstname">
-                  <div v-show="firstnameError" class="text-danger">
-                     ... the firstname is too short
+                  <input type="text" class="form-control" placeholder="name" v-model="name">
+                  <div v-show="nameError" class="text-danger">
+                     ... the name is too short
                   </div>
               </div>
-              <div class="form-group">
+            <!--   <div class="form-group">
                   <input type="text" class="form-control" placeholder="lastname" v-model="lastname">
                   <div v-show="lastnameError" class="text-danger">
                      ... the lastname is too short
                   </div>
-              </div>
+              </div> -->
               <div class="form-group">
                   <input type="email" class="form-control" placeholder="email" v-model="email">
                   <div v-show="emailError" class="text-danger">
@@ -60,19 +60,18 @@
 export default {
      data(){
          return {
-             firstname : '',
-             lastname : '',
+             name : '',
              password : '',
              email : '',
          }
      },
      computed:{
-         firstnameError(){
-             return this.firstname.length > 0 && this.firstname.length < 4
-         },
+         nameError(){
+             return this.name.length > 0 && this.name.length < 4
+         },/*
          lastnameError(){
              return this.lastname.length > 0 && this.lastname.length < 4
-         },
+         }, */
          emailError(){
            return !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) && this.email.length > 0
          },
@@ -80,13 +79,25 @@ export default {
              return this.password.length > 0 && this.password.length < 7
          },
          isValidForm(){
-             return this.firstname.length > 4  && this.lastname.length > 4 &&
+             return this.name.length > 4   &&
              this.password.length > 5 && (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email))
          }
      },
      methods:{
        submitRegister(){
-           console.log('submitted');
+           //console.log('submitted');
+           //client sid  localstorage sessionstorage indexed db   state managment system
+           //vue vuex
+
+           //this.$store.state.userToken = "amine"
+
+           //this.$store.commit('setUserToken',{userToken:'sdmfjsdkfjlsds'})
+            //console.log(this.$store.getters.isLogged)
+            let  {name,email,password} = this;
+            this.$store.dispatch('RegisterUser',{name,email,password})
+
+
+
        }
      }
 }
