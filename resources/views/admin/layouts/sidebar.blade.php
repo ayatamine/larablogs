@@ -5,9 +5,9 @@
     </div>
 
     <ul class="list-unstyled components">
-       
-        
-        
+
+
+
         <li>
             <a href="home.html">Home</a>
         </li>
