@@ -36,55 +36,77 @@ import router from './routes/routes'
 import Vuex from 'vuex';
 import Axios from 'axios';
 Vue.use(Vuex)
-// state action mutation getter
+    // state action mutation getter
 const store = new Vuex.Store({
-     state :{
-         userToken : null
-     },
-     getters:{ //center
-        isLogged(state){
+    state: {
+        userToken: null,
+        user: null,
+    },
+    getters: { //center
+        isLogged(state) {
             return !!state.userToken;
-        }
-     },
-     mutations:{
-         setUserToken(state,userToken){
-             state.userToken = userToken;
-             localStorage.setItem('userToken',JSON.stringify(userToken));
-             axios.defaults.headers.common.Authorization =  `Bearer ${userToken}`
-         },
-         removeUserToken(state){
+        },
+        isAdmin(state) {
+            if (state.user) {
+                return state.user.is_admin
+            }
+            return null
 
-             state.userToken = null;
-             localStorage.removeItem('userToken')
-         }
-     },
-     actions:{
-         RegisterUser({commit},payload){
-             axios.post('/api/register',payload)
-             .then(res => {
-                 console.log(res)
-                 commit('setUserToken',res.data.token)
-             })
-             .catch(err => {
-                 console.log(err)
-             })
-         },
-         LoginUser({commit},payload){
-            axios.post('/api/login',payload)
-            .then(res => {
-                console.log(res)
-                commit('setUserToken',res.data.token)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        }
+    },
+    mutations: {
+        setUserToken(state, userToken) {
+            state.userToken = userToken;
+            localStorage.setItem('userToken', JSON.stringify(userToken));
+            axios.defaults.headers.common.Authorization = `Bearer ${userToken}`
+        },
+        removeUserToken(state) {
+
+            state.userToken = null;
+            localStorage.removeItem('userToken')
+        },
+        setUser(state, user) {
+            state.user = user
+        },
+        logout(state) {
+            state.userToken = null;
+            localStorage.removeItem('userToken');
+            window.location.pathname = "/"
+        }
+    },
+    actions: {
+        RegisterUser({ commit }, payload) {
+            axios.post('/api/register', payload)
+                .then(res => {
+                    console.log(res)
+                    commit('setUserToken', res.data.token)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        LoginUser({ commit }, payload) {
+            axios.post('/api/login', payload)
+                .then(res => {
+                    console.log(res)
+                    commit('setUserToken', res.data.token)
+                    axios.get('/api/user')
+                        .then(res => {
+                            //console.log(res.data)
+                            commit('setUser', res.data.user)
+                        })
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
         }
 
-     }
+    }
 
 })
 const app = new Vue({
     el: '#app',
     router,
-    store:store
+    store: store
 });
