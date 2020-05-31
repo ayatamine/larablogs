@@ -1,5 +1,5 @@
 <template>
-  <div id="cont"> 
+  <div id="cont">
     <div class="">
         <div class="table-wrapper">
             <div class="table-title">
@@ -30,101 +30,23 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
+                <tbody v-if="posts.data">
+                    <tr v-for="(post,index) in posts.data" :key="index">
 						<td>
 							<span class="custom-checkbox">
 								<input type="checkbox" id="checkbox1" name="options[]" value="1">
 								<label for="checkbox1"></label>
 							</span>
 						</td>
-                        <td>Css Introduction</td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit quas
-                            consectetur porro deserunt quam exercitationem ex, eos iste voluptate
-                            sapiente placeat, maiores dolores sed rem, natus perferendis accusantium molestiae tempore?</td>
+                        <td>{{ post.title }}</td>
+                        <td>{{post.body.substr(0,150)}}</td>
 						<td>
-                            <span class="badge badge-info p-1 mb-1">html</span>
-                            <span class="badge badge-info p-1 mb-1">css</span>
+                            <span class="badge badge-info p-1 mb-1">{{ post.category.name }}</span>
                         </td>
                         <td>
                             <img src="img/p1.jpg" style="width:100px;height:60px;border:1px solid #e7e7e7" alt="">
                         </td>
-                        <td>ayat amine</td>
-                        <td>
-                            <a href="#editPostModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deletePostModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            <a href="#view_post" class="" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#128065;</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-						<td>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" value="1">
-								<label for="checkbox1"></label>
-							</span>
-						</td>
-                        <td>Css Introduction</td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit quas
-                            consectetur porro deserunt quam exercitationem ex, eos iste voluptate
-                            sapiente placeat, maiores dolores sed rem, natus perferendis accusantium molestiae tempore?</td>
-						<td>
-                            <span class="badge badge-info p-1 mb-1">html</span>
-                            <span class="badge badge-info p-1 mb-1">css</span>
-                        </td>
-                        <td>
-                            <img src="img/p1.jpg" style="width:100px;height:60px;border:1px solid #e7e7e7" alt="">
-                        </td>
-                        <td>ayat amine</td>
-                        <td>
-                            <a href="#editPostModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deletePostModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            <a href="#view_post" class="" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#128065;</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-						<td>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" value="1">
-								<label for="checkbox1"></label>
-							</span>
-						</td>
-                        <td>Css Introduction</td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit quas
-                            consectetur porro deserunt quam exercitationem ex, eos iste voluptate
-                            sapiente placeat, maiores dolores sed rem, natus perferendis accusantium molestiae tempore?</td>
-						<td>
-                            <span class="badge badge-info p-1 mb-1">html</span>
-                            <span class="badge badge-info p-1 mb-1">css</span>
-                        </td>
-                        <td>
-                            <img src="img/p1.jpg" style="width:100px;height:60px;border:1px solid #e7e7e7" alt="">
-                        </td>
-                        <td>ayat amine</td>
-                        <td>
-                            <a href="#editPostModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deletePostModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            <a href="#view_post" class="" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#128065;</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-						<td>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" value="1">
-								<label for="checkbox1"></label>
-							</span>
-						</td>
-                        <td>Css Introduction</td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit quas
-                            consectetur porro deserunt quam exercitationem ex, eos iste voluptate
-                            sapiente placeat, maiores dolores sed rem, natus perferendis accusantium molestiae tempore?</td>
-						<td>
-                            <span class="badge badge-info p-1 mb-1">html</span>
-                            <span class="badge badge-info p-1 mb-1">css</span>
-                        </td>
-                        <td>
-                            <img src="img/p1.jpg" style="width:100px;height:60px;border:1px solid #e7e7e7" alt="">
-                        </td>
-                        <td>ayat amine</td>
+                        <td>{{ post.user.name }}</td>
                         <td>
                             <a href="#editPostModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             <a href="#deletePostModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -132,19 +54,12 @@
                         </td>
                     </tr>
 
+
                 </tbody>
             </table>
 			<div class="clearfix">
                 <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
+                <pagination :data="posts" @pagination-change-page="getPosts"></pagination>
             </div>
         </div>
     </div>
@@ -251,6 +166,25 @@
 
 <script>
 export default {
+	data(){
+		return {
+			posts :{}
+		}
+	},
+	created(){
+		this.getPosts()
+	},
+	methods:{
+		getPosts(page){
+                axios.get('/api/admin/posts?page=' + page)
+                .then(res => {
+console.log(res)
+                    this.posts = res.data;
+                    localStorage.setItem('posts',JSON.stringify(this.posts));
+                })
+                .then(err => console.log(err))
+            }
+	}
 
 }
 $(document).ready(function(){

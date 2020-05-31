@@ -2760,92 +2760,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      posts: {}
+    };
+  },
+  created: function created() {
+    this.getPosts();
+  },
+  methods: {
+    getPosts: function getPosts(page) {
+      var _this = this;
+
+      axios.get('/api/admin/posts?page=' + page).then(function (res) {
+        console.log(res);
+        _this.posts = res.data;
+        localStorage.setItem('posts', JSON.stringify(_this.posts));
+      }).then(function (err) {
+        return console.log(err);
+      });
+    }
+  }
+});
 $(document).ready(function () {
   // Activate tooltip
   $('[data-toggle="tooltip"]').tooltip(); // Select/Deselect checkboxes
@@ -41003,537 +40940,242 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { attrs: { id: "cont" } }, [
+    _c("div", {}, [
+      _c("div", { staticClass: "table-wrapper" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("table", { staticClass: "table table-striped table-hover" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _vm.posts.data
+            ? _c(
+                "tbody",
+                _vm._l(_vm.posts.data, function(post, index) {
+                  return _c("tr", { key: index }, [
+                    _vm._m(2, true),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(post.title))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(post.body.substr(0, 150)))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("span", { staticClass: "badge badge-info p-1 mb-1" }, [
+                        _vm._v(_vm._s(post.category.name))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(3, true),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(post.user.name))]),
+                    _vm._v(" "),
+                    _vm._m(4, true)
+                  ])
+                }),
+                0
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "clearfix" },
+          [
+            _vm._m(5),
+            _vm._v(" "),
+            _c("pagination", {
+              attrs: { data: _vm.posts },
+              on: { "pagination-change-page": _vm.getPosts }
+            })
+          ],
+          1
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _vm._m(6),
+    _vm._v(" "),
+    _vm._m(7),
+    _vm._v(" "),
+    _vm._m(8)
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "cont" } }, [
-      _c("div", {}, [
-        _c("div", { staticClass: "table-wrapper" }, [
-          _c("div", { staticClass: "table-title" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-6" }, [
-                _c("h2", [_vm._v("Manage "), _c("b", [_vm._v("Posts")])])
-              ]),
+    return _c("div", { staticClass: "table-title" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c("h2", [_vm._v("Manage "), _c("b", [_vm._v("Posts")])])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-6" }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-success",
+              attrs: { href: "#addPostModal", "data-toggle": "modal" }
+            },
+            [
+              _c("i", { staticClass: "material-icons" }, [_vm._v("")]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-sm-6" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-success",
-                    attrs: { href: "#addPostModal", "data-toggle": "modal" }
-                  },
-                  [
-                    _c("i", { staticClass: "material-icons" }, [_vm._v("")]),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Add New Post")])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-danger",
-                    attrs: { href: "#deletePostModal", "data-toggle": "modal" }
-                  },
-                  [
-                    _c("i", { staticClass: "material-icons" }, [_vm._v("")]),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Delete")])
-                  ]
-                )
-              ])
-            ])
-          ]),
+              _c("span", [_vm._v("Add New Post")])
+            ]
+          ),
           _vm._v(" "),
-          _c("table", { staticClass: "table table-striped table-hover" }, [
-            _c("thead", [
-              _c("tr", [
-                _c("th", [
-                  _c("span", { staticClass: "custom-checkbox" }, [
-                    _c("input", {
-                      attrs: { type: "checkbox", id: "selectAll" }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "selectAll" } })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Title")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Body")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Category")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Image")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("User")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Action")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("tbody", [
-              _c("tr", [
-                _c("td", [
-                  _c("span", { staticClass: "custom-checkbox" }, [
-                    _c("input", {
-                      attrs: {
-                        type: "checkbox",
-                        id: "checkbox1",
-                        name: "options[]",
-                        value: "1"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "checkbox1" } })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Css Introduction")]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit quas\n                            consectetur porro deserunt quam exercitationem ex, eos iste voluptate\n                            sapiente placeat, maiores dolores sed rem, natus perferendis accusantium molestiae tempore?"
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("span", { staticClass: "badge badge-info p-1 mb-1" }, [
-                    _vm._v("html")
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "badge badge-info p-1 mb-1" }, [
-                    _vm._v("css")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("img", {
-                    staticStyle: {
-                      width: "100px",
-                      height: "60px",
-                      border: "1px solid #e7e7e7"
-                    },
-                    attrs: { src: "img/p1.jpg", alt: "" }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v("ayat amine")]),
-                _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "edit",
-                      attrs: { href: "#editPostModal", "data-toggle": "modal" }
-                    },
-                    [
-                      _c(
-                        "i",
-                        {
-                          staticClass: "material-icons",
-                          attrs: { "data-toggle": "tooltip", title: "Edit" }
-                        },
-                        [_vm._v("")]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "delete",
-                      attrs: {
-                        href: "#deletePostModal",
-                        "data-toggle": "modal"
-                      }
-                    },
-                    [
-                      _c(
-                        "i",
-                        {
-                          staticClass: "material-icons",
-                          attrs: { "data-toggle": "tooltip", title: "Delete" }
-                        },
-                        [_vm._v("")]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("a", { attrs: { href: "#view_post" } }, [
-                    _c(
-                      "i",
-                      {
-                        staticClass: "material-icons",
-                        attrs: { "data-toggle": "tooltip", title: "Delete" }
-                      },
-                      [_vm._v("👁")]
-                    )
-                  ])
-                ])
-              ]),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-danger",
+              attrs: { href: "#deletePostModal", "data-toggle": "modal" }
+            },
+            [
+              _c("i", { staticClass: "material-icons" }, [_vm._v("")]),
               _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("span", { staticClass: "custom-checkbox" }, [
-                    _c("input", {
-                      attrs: {
-                        type: "checkbox",
-                        id: "checkbox1",
-                        name: "options[]",
-                        value: "1"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "checkbox1" } })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Css Introduction")]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit quas\n                            consectetur porro deserunt quam exercitationem ex, eos iste voluptate\n                            sapiente placeat, maiores dolores sed rem, natus perferendis accusantium molestiae tempore?"
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("span", { staticClass: "badge badge-info p-1 mb-1" }, [
-                    _vm._v("html")
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "badge badge-info p-1 mb-1" }, [
-                    _vm._v("css")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("img", {
-                    staticStyle: {
-                      width: "100px",
-                      height: "60px",
-                      border: "1px solid #e7e7e7"
-                    },
-                    attrs: { src: "img/p1.jpg", alt: "" }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v("ayat amine")]),
-                _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "edit",
-                      attrs: { href: "#editPostModal", "data-toggle": "modal" }
-                    },
-                    [
-                      _c(
-                        "i",
-                        {
-                          staticClass: "material-icons",
-                          attrs: { "data-toggle": "tooltip", title: "Edit" }
-                        },
-                        [_vm._v("")]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "delete",
-                      attrs: {
-                        href: "#deletePostModal",
-                        "data-toggle": "modal"
-                      }
-                    },
-                    [
-                      _c(
-                        "i",
-                        {
-                          staticClass: "material-icons",
-                          attrs: { "data-toggle": "tooltip", title: "Delete" }
-                        },
-                        [_vm._v("")]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("a", { attrs: { href: "#view_post" } }, [
-                    _c(
-                      "i",
-                      {
-                        staticClass: "material-icons",
-                        attrs: { "data-toggle": "tooltip", title: "Delete" }
-                      },
-                      [_vm._v("👁")]
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("span", { staticClass: "custom-checkbox" }, [
-                    _c("input", {
-                      attrs: {
-                        type: "checkbox",
-                        id: "checkbox1",
-                        name: "options[]",
-                        value: "1"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "checkbox1" } })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Css Introduction")]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit quas\n                            consectetur porro deserunt quam exercitationem ex, eos iste voluptate\n                            sapiente placeat, maiores dolores sed rem, natus perferendis accusantium molestiae tempore?"
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("span", { staticClass: "badge badge-info p-1 mb-1" }, [
-                    _vm._v("html")
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "badge badge-info p-1 mb-1" }, [
-                    _vm._v("css")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("img", {
-                    staticStyle: {
-                      width: "100px",
-                      height: "60px",
-                      border: "1px solid #e7e7e7"
-                    },
-                    attrs: { src: "img/p1.jpg", alt: "" }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v("ayat amine")]),
-                _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "edit",
-                      attrs: { href: "#editPostModal", "data-toggle": "modal" }
-                    },
-                    [
-                      _c(
-                        "i",
-                        {
-                          staticClass: "material-icons",
-                          attrs: { "data-toggle": "tooltip", title: "Edit" }
-                        },
-                        [_vm._v("")]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "delete",
-                      attrs: {
-                        href: "#deletePostModal",
-                        "data-toggle": "modal"
-                      }
-                    },
-                    [
-                      _c(
-                        "i",
-                        {
-                          staticClass: "material-icons",
-                          attrs: { "data-toggle": "tooltip", title: "Delete" }
-                        },
-                        [_vm._v("")]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("a", { attrs: { href: "#view_post" } }, [
-                    _c(
-                      "i",
-                      {
-                        staticClass: "material-icons",
-                        attrs: { "data-toggle": "tooltip", title: "Delete" }
-                      },
-                      [_vm._v("👁")]
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [
-                  _c("span", { staticClass: "custom-checkbox" }, [
-                    _c("input", {
-                      attrs: {
-                        type: "checkbox",
-                        id: "checkbox1",
-                        name: "options[]",
-                        value: "1"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "checkbox1" } })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Css Introduction")]),
-                _vm._v(" "),
-                _c("td", [
-                  _vm._v(
-                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit quas\n                            consectetur porro deserunt quam exercitationem ex, eos iste voluptate\n                            sapiente placeat, maiores dolores sed rem, natus perferendis accusantium molestiae tempore?"
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("span", { staticClass: "badge badge-info p-1 mb-1" }, [
-                    _vm._v("html")
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "badge badge-info p-1 mb-1" }, [
-                    _vm._v("css")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("img", {
-                    staticStyle: {
-                      width: "100px",
-                      height: "60px",
-                      border: "1px solid #e7e7e7"
-                    },
-                    attrs: { src: "img/p1.jpg", alt: "" }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v("ayat amine")]),
-                _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "edit",
-                      attrs: { href: "#editPostModal", "data-toggle": "modal" }
-                    },
-                    [
-                      _c(
-                        "i",
-                        {
-                          staticClass: "material-icons",
-                          attrs: { "data-toggle": "tooltip", title: "Edit" }
-                        },
-                        [_vm._v("")]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "delete",
-                      attrs: {
-                        href: "#deletePostModal",
-                        "data-toggle": "modal"
-                      }
-                    },
-                    [
-                      _c(
-                        "i",
-                        {
-                          staticClass: "material-icons",
-                          attrs: { "data-toggle": "tooltip", title: "Delete" }
-                        },
-                        [_vm._v("")]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("a", { attrs: { href: "#view_post" } }, [
-                    _c(
-                      "i",
-                      {
-                        staticClass: "material-icons",
-                        attrs: { "data-toggle": "tooltip", title: "Delete" }
-                      },
-                      [_vm._v("👁")]
-                    )
-                  ])
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "clearfix" }, [
-            _c("div", { staticClass: "hint-text" }, [
-              _vm._v("Showing "),
-              _c("b", [_vm._v("5")]),
-              _vm._v(" out of "),
-              _c("b", [_vm._v("25")]),
-              _vm._v(" entries")
-            ]),
-            _vm._v(" "),
-            _c("ul", { staticClass: "pagination" }, [
-              _c("li", { staticClass: "page-item disabled" }, [
-                _c("a", { attrs: { href: "#" } }, [_vm._v("Previous")])
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "page-item" }, [
-                _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                  _vm._v("1")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "page-item" }, [
-                _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                  _vm._v("2")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "page-item active" }, [
-                _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                  _vm._v("3")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "page-item" }, [
-                _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                  _vm._v("4")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "page-item" }, [
-                _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                  _vm._v("5")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "page-item" }, [
-                _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                  _vm._v("Next")
-                ])
-              ])
-            ])
-          ])
+              _c("span", [_vm._v("Delete")])
+            ]
+          )
         ])
-      ]),
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [
+          _c("span", { staticClass: "custom-checkbox" }, [
+            _c("input", { attrs: { type: "checkbox", id: "selectAll" } }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "selectAll" } })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Title")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Body")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Category")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Image")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("User")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("span", { staticClass: "custom-checkbox" }, [
+        _c("input", {
+          attrs: {
+            type: "checkbox",
+            id: "checkbox1",
+            name: "options[]",
+            value: "1"
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "checkbox1" } })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("img", {
+        staticStyle: {
+          width: "100px",
+          height: "60px",
+          border: "1px solid #e7e7e7"
+        },
+        attrs: { src: "img/p1.jpg", alt: "" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c(
+        "a",
+        {
+          staticClass: "edit",
+          attrs: { href: "#editPostModal", "data-toggle": "modal" }
+        },
+        [
+          _c(
+            "i",
+            {
+              staticClass: "material-icons",
+              attrs: { "data-toggle": "tooltip", title: "Edit" }
+            },
+            [_vm._v("")]
+          )
+        ]
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "modal fade", attrs: { id: "addPostModal" } }, [
+      _c(
+        "a",
+        {
+          staticClass: "delete",
+          attrs: { href: "#deletePostModal", "data-toggle": "modal" }
+        },
+        [
+          _c(
+            "i",
+            {
+              staticClass: "material-icons",
+              attrs: { "data-toggle": "tooltip", title: "Delete" }
+            },
+            [_vm._v("")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("a", { attrs: { href: "#view_post" } }, [
+        _c(
+          "i",
+          {
+            staticClass: "material-icons",
+            attrs: { "data-toggle": "tooltip", title: "Delete" }
+          },
+          [_vm._v("👁")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "hint-text" }, [
+      _vm._v("Showing "),
+      _c("b", [_vm._v("5")]),
+      _vm._v(" out of "),
+      _c("b", [_vm._v("25")]),
+      _vm._v(" entries")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "modal fade", attrs: { id: "addPostModal" } },
+      [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
             _c("form", [
@@ -41615,9 +41257,17 @@ var staticRenderFns = [
             ])
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "modal fade", attrs: { id: "editPostModal" } }, [
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "modal fade", attrs: { id: "editPostModal" } },
+      [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
             _c(
@@ -41705,65 +41355,69 @@ var staticRenderFns = [
             )
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "modal fade", attrs: { id: "deletePostModal" } },
-        [
-          _c("div", { staticClass: "modal-dialog" }, [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("form", [
-                _c("div", { staticClass: "modal-header" }, [
-                  _c("h4", { staticClass: "modal-title" }, [
-                    _vm._v("Delete Post")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "close",
-                      attrs: {
-                        type: "button",
-                        "data-dismiss": "modal",
-                        "aria-hidden": "true"
-                      }
-                    },
-                    [_vm._v("×")]
-                  )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "modal fade", attrs: { id: "deletePostModal" } },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("form", [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", { staticClass: "modal-title" }, [
+                  _vm._v("Delete Post")
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "modal-body" }, [
-                  _c("p", [
-                    _vm._v("Are you sure you want to delete these Records?")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "text-warning" }, [
-                    _c("small", [_vm._v("This action cannot be undone.")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "modal-footer" }, [
-                  _c("input", {
-                    staticClass: "btn btn-default",
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
                     attrs: {
                       type: "button",
                       "data-dismiss": "modal",
-                      value: "Cancel"
+                      "aria-hidden": "true"
                     }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "btn btn-danger",
-                    attrs: { type: "submit", value: "Delete" }
-                  })
+                  },
+                  [_vm._v("×")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("p", [
+                  _vm._v("Are you sure you want to delete these Records?")
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-warning" }, [
+                  _c("small", [_vm._v("This action cannot be undone.")])
                 ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c("input", {
+                  staticClass: "btn btn-default",
+                  attrs: {
+                    type: "button",
+                    "data-dismiss": "modal",
+                    value: "Cancel"
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "btn btn-danger",
+                  attrs: { type: "submit", value: "Delete" }
+                })
               ])
             ])
           ])
-        ]
-      )
-    ])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
