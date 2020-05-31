@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Post;
+use App\Category;
 use Illuminate\Http\Request;
-
+use Auth;
+use Illuminate\Support\Str;
 class AdminController extends Controller
 {
     //
@@ -17,5 +19,25 @@ class AdminController extends Controller
             $post->setAttribute('comments_count',$post->comments->count());
         }
         return response()->json($posts);
+    }
+    public function getCategories(){
+        $categories  = Category::get();
+        return response()->json($categories);
+    }
+    public function addPost(Request $request){
+         $filename = '';
+        if($request->hasFile('image')){
+           $filename = time().'.'.$request->image->getClientOriginalExtension();
+           $request->image->move(public_path('img'),$filename);
+        }
+        $post = Post::create([
+            'title'=>$request->title,
+            'slug'=>Str::slug($request->title),
+            'body'=>$request->body,
+            'category_id'=>$request->category,
+            'user_id'=>Auth::id(),
+            'image'=>$filename,
+        ]);
+        return response()->json($post);
     }
 }

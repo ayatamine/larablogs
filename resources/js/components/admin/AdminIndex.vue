@@ -44,7 +44,7 @@
                             <span class="badge badge-info p-1 mb-1">{{ post.category.name }}</span>
                         </td>
                         <td>
-                            <img src="img/p1.jpg" style="width:100px;height:60px;border:1px solid #e7e7e7" alt="">
+                            <img :src="'img/'+post.image" style="width:100px;height:60px;border:1px solid #e7e7e7" alt="">
                         </td>
                         <td>{{ post.user.name }}</td>
                         <td>
@@ -67,7 +67,7 @@
 	<div id="addPostModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form enctype="multipart/form-data">
 					<div class="modal-header">
 						<h4 class="modal-title">Add Post</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -75,27 +75,31 @@
 					<div class="modal-body">
 						<div class="form-group">
 							<label>title</label>
-							<input type="text" class="form-control" required>
+							<input type="text" class="form-control" required v-model="title">
 						</div>
 						<div class="form-group">
 							<label>body</label>
-							<textarea name=""  cols="30" class="form-control"
+							<textarea name=""  cols="30" class="form-control" v-model="body"
                             rows="10"></textarea>
 						</div>
 						<div class="form-group">
 							<label>category</label>
-							<select name="" class="form-control" >
-                                <option value="0">choose</option>
+							<select name="" class="form-control" v-model="category">
+                                <option value="0" disabled selected>choose category</option>
+
+                                <option :value="category.id" v-for="category in categories" :key="category.id">
+								 {{ category.name }}
+								</option>
                             </select>
 						</div>
 						<div class="form-group">
 							<label>image</label>
-							<input type="file" class="form-control" required>
+							<input type="file" class="form-control" required @change="onImageChanged" >
 						</div>
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<input type="submit" class="btn btn-success" value="Add">
+						<input type="submit" class="btn btn-success" value="Add" @click.prevent="addPost">
 					</div>
 				</form>
 			</div>
@@ -168,22 +172,61 @@
 export default {
 	data(){
 		return {
-			posts :{}
+			posts :{},
+			title :'',
+			body  :'',
+			image : '',
+			category : '',
+			categories : [],
 		}
 	},
 	created(){
-		this.getPosts()
+		this.getPosts();
+		this.getCategories();
 	},
 	methods:{
 		getPosts(page){
                 axios.get('/api/admin/posts?page=' + page)
                 .then(res => {
-console.log(res)
+
                     this.posts = res.data;
                     localStorage.setItem('posts',JSON.stringify(this.posts));
                 })
                 .then(err => console.log(err))
-            }
+			},
+		getCategories(){
+               axios.get('/api/admin/categories')
+                .then(res => {
+                    console.log(res.data)
+                    this.categories = res.data;
+                })
+                .then(err => console.log(err))
+		},
+		onImageChanged(event){
+			//console.log(event.target.files[0])
+			this.image  = event.target.files[0]
+		},
+		addPost(){
+			let config ={
+				headers :{"content-type" : 'multipart/form-data'}
+			}
+			let formdata = new FormData();
+            formdata.append('title',this.title)
+            formdata.append('body',this.body)
+            formdata.append('image',this.image)
+			formdata.append('category',this.category)
+			axios.post('/api/admin/addPost',formdata,config)
+			.then(res => {
+				console.log(res)
+				this.title = '';
+				this.body = '';
+				this.category = '';
+				this.image = '';
+				$('#addPostModal').modal('hide')
+			})
+
+		}
+
 	}
 
 }
