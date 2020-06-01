@@ -48,9 +48,10 @@
                         </td>
                         <td>{{ post.user.name }}</td>
                         <td>
-                            <a href="#editPostModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#editPostModal" class="edit" @click="editPost(post,$event)"
+							 data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             <a href="#deletePostModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            <a href="#view_post" class="" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#128065;</i></a>
+                            <router-link  :to="'/post/'+post.slug" class="" target="_blank"><i class="material-icons" data-toggle="tooltip" title="Delete">&#128065;</i></router-link>
                         </td>
                     </tr>
 
@@ -105,44 +106,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- Edit Modal HTML -->
-	<div id="editPostModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form enctype="multipart/form-data" novalidate >
-					<div class="modal-header">
-						<h4 class="modal-title">Edit Post</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<label>title</label>
-							<input type="text" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<label>body</label>
-							<textarea name=""  cols="30" class="form-control"
-                            rows="10"></textarea>
-						</div>
-						<div class="form-group">
-							<label>category</label>
-							<select name="" class="form-control" >
-                                <option value="0">choose</option>
-                            </select>
-						</div>
-						<div class="form-group">
-							<label>image</label>
-							<input type="file" class="form-control" required>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<input type="submit" class="btn " value="Save">
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+   <editpost></editpost>
 	<!-- Delete Modal HTML -->
 	<div id="deletePostModal" class="modal fade">
 		<div class="modal-dialog">
@@ -169,6 +133,7 @@
 </template>
 
 <script>
+import editpost from './EditPost'
 export default {
 	data(){
 		return {
@@ -183,6 +148,9 @@ export default {
 	created(){
 		this.getPosts();
 		this.getCategories();
+	},
+	components:{
+          editpost
 	},
 	methods:{
 		getPosts(page){
@@ -222,9 +190,13 @@ export default {
 				this.body = '';
 				this.category = '';
 				this.image = '';
-				$('#addPostModal').modal('hide')
+				$('#addPostModal').modal('hide');
+				$('.modal-backdrop').css('display','none')
 			})
 
+		},
+		editPost(post){
+			this.$store.commit('EditPost',post)
 		}
 
 	}

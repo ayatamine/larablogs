@@ -40,4 +40,20 @@ class AdminController extends Controller
         ]);
         return response()->json($post);
     }
+    public function updatePost(Request $request){
+        $post = Post::find($request->id);
+         $filename = $post->image;
+        if($request->hasFile('image')){
+           $filename = time().'.'.$request->image->getClientOriginalExtension();
+           $request->image->move(public_path('img'),$filename);
+        }
+
+        $post->title = $request->title;
+        $post->slug = Str::slug($request->title);
+        $post->body = $request->body;
+        $post->category_id = $request->category;
+        $post->image = $filename != '' ? $filename : $post->image;
+        $post->save();
+        return response()->json($post);
+    }
 }
