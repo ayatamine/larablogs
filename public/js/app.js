@@ -2729,6 +2729,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2738,7 +2762,8 @@ __webpack_require__.r(__webpack_exports__);
       body: '',
       image: '',
       category: '',
-      categories: []
+      categories: [],
+      selectedPosts: []
     };
   },
   created: function created() {
@@ -2798,6 +2823,47 @@ __webpack_require__.r(__webpack_exports__);
     },
     editPost: function editPost(post) {
       this.$store.commit('EditPost', post);
+    },
+    selectPost: function selectPost(post, event) {
+      var index = this.selectedPosts.indexOf(post.id);
+
+      if (index > -1) {
+        this.selectedPosts.splice(index, 1);
+        event.target.checked = false; //uncheck
+      } else {
+        this.selectedPosts.push(post.id);
+        event.target.checked = true;
+      }
+    },
+    selectAll: function selectAll(event) {
+      var _this4 = this;
+
+      if (event.target.checked) {
+        $('input[type="checkbox"]').prop('checked', true);
+        this.posts.data.forEach(function (p) {
+          _this4.selectedPosts.push(p.id);
+        });
+      } else {
+        $('input[type="checkbox"]').prop('checked', false);
+        this.selectedPosts = [];
+      }
+    },
+    deletePosts: function deletePosts() {
+      var _this5 = this;
+
+      axios.post('/api/admin/deletePosts', {
+        posts_ids: this.selectedPosts
+      }).then(function (res) {
+        console.log(res.data);
+        $('#deletePostModal').modal('hide');
+        $('.modal-backdrop').css('display', 'none');
+
+        _this5.getPosts();
+
+        $('input[type="checkbox"]').prop('checked', false);
+      })["catch"](function (err) {
+        console.log(err);
+      });
     }
   }
 });
@@ -41080,17 +41146,109 @@ var render = function() {
     [
       _c("div", {}, [
         _c("div", { staticClass: "table-wrapper" }, [
-          _vm._m(0),
+          _c("div", { staticClass: "table-title" }, [
+            _c("div", { staticClass: "row" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-6" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _vm.selectedPosts.length
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: {
+                          href: "#deletePostModal",
+                          "data-toggle": "modal"
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "material-icons" }, [
+                          _vm._v("")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v("Delete")])
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.selectedPosts.length
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: {
+                          href: "#deletePostModalnopost",
+                          "data-toggle": "modal"
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "material-icons" }, [
+                          _vm._v("")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v("Delete")])
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ])
+          ]),
           _vm._v(" "),
           _c("table", { staticClass: "table table-striped table-hover" }, [
-            _vm._m(1),
+            _c("thead", [
+              _c("tr", [
+                _c("th", [
+                  _c("span", { staticClass: "custom-checkbox" }, [
+                    _c("input", {
+                      attrs: { type: "checkbox", id: "selectAll" },
+                      on: { click: _vm.selectAll }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "selectAll" } })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("th", [_vm._v("Title")]),
+                _vm._v(" "),
+                _c("th", [_vm._v("Body")]),
+                _vm._v(" "),
+                _c("th", [_vm._v("Category")]),
+                _vm._v(" "),
+                _c("th", [_vm._v("Image")]),
+                _vm._v(" "),
+                _c("th", [_vm._v("User")]),
+                _vm._v(" "),
+                _c("th", [_vm._v("Action")])
+              ])
+            ]),
             _vm._v(" "),
             _vm.posts.data
               ? _c(
                   "tbody",
                   _vm._l(_vm.posts.data, function(post, index) {
                     return _c("tr", { key: index }, [
-                      _vm._m(2, true),
+                      _c("td", [
+                        _c("span", { staticClass: "custom-checkbox" }, [
+                          _c("input", {
+                            attrs: {
+                              type: "checkbox",
+                              id: "checkbox1" + index,
+                              name: "options[]",
+                              value: "1"
+                            },
+                            on: {
+                              click: function($event) {
+                                $event.stopPropagation()
+                                return _vm.selectPost(post, $event)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "checkbox1" + index } })
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(post.title))]),
                       _vm._v(" "),
@@ -41149,7 +41307,7 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _vm._m(3, true),
+                          _vm._m(2, true),
                           _vm._v(" "),
                           _c(
                             "router-link",
@@ -41187,7 +41345,7 @@ var render = function() {
             "div",
             { staticClass: "clearfix" },
             [
-              _vm._m(4),
+              _vm._m(3),
               _vm._v(" "),
               _c("pagination", {
                 attrs: { data: _vm.posts },
@@ -41203,7 +41361,7 @@ var render = function() {
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
             _c("form", { attrs: { enctype: "multipart/form-data" } }, [
-              _vm._m(5),
+              _vm._m(4),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "form-group" }, [
@@ -41357,7 +41515,58 @@ var render = function() {
       _vm._v(" "),
       _c("editpost"),
       _vm._v(" "),
-      _vm._m(6)
+      _c(
+        "div",
+        { staticClass: "modal fade", attrs: { id: "deletePostModal" } },
+        [
+          _c("div", { staticClass: "modal-dialog" }, [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("form", [
+                _vm._m(5),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("p", [
+                    _vm._v("Are you sure you want to delete these Records?")
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(6),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "text-warning" }, [
+                    _c("small", [
+                      _vm._v("Selected Posts : "),
+                      _c("strong", [_vm._v(_vm._s(_vm.selectedPosts.length))])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c("input", {
+                    staticClass: "btn btn-default",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      value: "Cancel"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "submit", value: "Delete" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.deletePosts($event)
+                      }
+                    }
+                  })
+                ])
+              ])
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _vm._m(7)
     ],
     1
   )
@@ -41367,88 +41576,26 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "table-title" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-sm-6" }, [
-          _c("h2", [_vm._v("Manage "), _c("b", [_vm._v("Posts")])])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-6" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-success",
-              attrs: { href: "#addPostModal", "data-toggle": "modal" }
-            },
-            [
-              _c("i", { staticClass: "material-icons" }, [_vm._v("")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("Add New Post")])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-danger",
-              attrs: { href: "#deletePostModal", "data-toggle": "modal" }
-            },
-            [
-              _c("i", { staticClass: "material-icons" }, [_vm._v("")]),
-              _vm._v(" "),
-              _c("span", [_vm._v("Delete")])
-            ]
-          )
-        ])
-      ])
+    return _c("div", { staticClass: "col-sm-6" }, [
+      _c("h2", [_vm._v("Manage "), _c("b", [_vm._v("Posts")])])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [
-          _c("span", { staticClass: "custom-checkbox" }, [
-            _c("input", { attrs: { type: "checkbox", id: "selectAll" } }),
-            _vm._v(" "),
-            _c("label", { attrs: { for: "selectAll" } })
-          ])
-        ]),
+    return _c(
+      "a",
+      {
+        staticClass: "btn btn-success",
+        attrs: { href: "#addPostModal", "data-toggle": "modal" }
+      },
+      [
+        _c("i", { staticClass: "material-icons" }, [_vm._v("")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Title")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Body")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Category")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Image")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("User")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Action")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("span", { staticClass: "custom-checkbox" }, [
-        _c("input", {
-          attrs: {
-            type: "checkbox",
-            id: "checkbox1",
-            name: "options[]",
-            value: "1"
-          }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "checkbox1" } })
-      ])
-    ])
+        _c("span", [_vm._v("Add New Post")])
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -41509,9 +41656,38 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [_vm._v("Delete Post")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-hidden": "true"
+          }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "text-warning" }, [
+      _c("small", [_vm._v("This action cannot be undone.")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "modal fade", attrs: { id: "deletePostModal" } },
+      { staticClass: "modal fade", attrs: { id: "deletePostModalnopost" } },
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
@@ -41536,29 +41712,7 @@ var staticRenderFns = [
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _c("p", [
-                  _vm._v("Are you sure you want to delete these Records?")
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "text-warning" }, [
-                  _c("small", [_vm._v("This action cannot be undone.")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c("input", {
-                  staticClass: "btn btn-default",
-                  attrs: {
-                    type: "button",
-                    "data-dismiss": "modal",
-                    value: "Cancel"
-                  }
-                }),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass: "btn btn-danger",
-                  attrs: { type: "submit", value: "Delete" }
-                })
+                _c("p", [_vm._v("No post selected !")])
               ])
             ])
           ])

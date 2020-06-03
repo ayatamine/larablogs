@@ -9,7 +9,11 @@
 					</div>
 					<div class="col-sm-6">
 						<a href="#addPostModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Post</span></a>
-						<a href="#deletePostModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+
+						<a href="#deletePostModal"  v-if="selectedPosts.length"
+						class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+						<a href="#deletePostModalnopost"  v-if="!selectedPosts.length"
+						class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
 					</div>
                 </div>
             </div>
@@ -18,7 +22,8 @@
                     <tr>
 						<th>
 							<span class="custom-checkbox">
-								<input type="checkbox" id="selectAll">
+								<input type="checkbox" @click="selectAll"
+								 id="selectAll">
 								<label for="selectAll"></label>
 							</span>
 						</th>
@@ -34,8 +39,9 @@
                     <tr v-for="(post,index) in posts.data" :key="index">
 						<td>
 							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" value="1">
-								<label for="checkbox1"></label>
+								<input type="checkbox" :id="'checkbox1'+index" @click.stop="selectPost(post,$event)"
+								name="options[]" value="1">
+								<label :for="'checkbox1'+index"></label>
 							</span>
 						</td>
                         <td>{{ post.title }}</td>
@@ -119,10 +125,28 @@
 					<div class="modal-body">
 						<p>Are you sure you want to delete these Records?</p>
 						<p class="text-warning"><small>This action cannot be undone.</small></p>
+						<p class="text-warning"><small>Selected Posts : <strong>{{selectedPosts.length}}</strong></small></p>
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<input type="submit" class="btn btn-danger" value="Delete">
+						<input type="submit" class="btn btn-danger" @click.prevent="deletePosts"
+						value="Delete">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Delete Modal HTML -->
+	<div id="deletePostModalnopost" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form>
+					<div class="modal-header">
+						<h4 class="modal-title">Delete Post</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p>No post selected !</p>
 					</div>
 				</form>
 			</div>
@@ -143,6 +167,7 @@ export default {
 			image : '',
 			category : '',
 			categories : [],
+			selectedPosts : []
 		}
 	},
 	created(){
@@ -197,6 +222,41 @@ export default {
 		},
 		editPost(post){
 			this.$store.commit('EditPost',post)
+		},
+		selectPost(post,event){
+			let index = this.selectedPosts.indexOf(post.id);
+			if(index > -1){
+				this.selectedPosts.splice(index,1)
+				event.target.checked = false //uncheck
+			}else{
+				 this.selectedPosts.push(post.id);
+				 event.target.checked = true;
+			}
+		},
+		selectAll(event){
+              if( event.target.checked ){
+				  $('input[type="checkbox"]').prop('checked',true)
+				  this.posts.data.forEach(p =>{
+					  this.selectedPosts.push(p.id)
+				  })
+			  }else{
+				   $('input[type="checkbox"]').prop('checked',false)
+				   this.selectedPosts = []
+			  }
+		},
+		deletePosts(){
+			 axios.post('/api/admin/deletePosts',{posts_ids: this.selectedPosts})
+			 .then(res => {
+				 console.log(res.data)
+				 $('#deletePostModal').modal('hide');
+				$('.modal-backdrop').css('display','none');
+				this.getPosts();
+				$('input[type="checkbox"]').prop('checked',false)
+
+			 })
+			 .catch(err =>{
+				 console.log(err)
+			 })
 		}
 
 	}

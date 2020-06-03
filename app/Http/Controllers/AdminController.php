@@ -6,6 +6,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Str;
+use DB;
 class AdminController extends Controller
 {
     //
@@ -13,7 +14,7 @@ class AdminController extends Controller
         $this->middleware('admin');
     }
     public function getPosts(){
-        $posts = Post::latest()->with('user')->with('category')->paginate(1);
+        $posts = Post::latest()->with('user')->with('category')->paginate(5);
         foreach($posts as $post){
             $post->setAttribute('added_at',$post->created_at->diffForHumans());
             $post->setAttribute('comments_count',$post->comments->count());
@@ -55,5 +56,10 @@ class AdminController extends Controller
         $post->image = $filename != '' ? $filename : $post->image;
         $post->save();
         return response()->json($post);
+    }
+    public function deletePosts(Request $request){
+       $ids = $request->posts_ids;
+       DB::table('posts')->whereIn('id',$ids)->delete();
+       return response()->json(['message'=>'deleted']);
     }
 }
