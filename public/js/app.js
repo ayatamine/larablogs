@@ -2436,10 +2436,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       if (query.length > 0) {
+        this.issearching = true;
         console.log(query);
-        axios.get('/api/searchposts/' + query).then(function (res) {
+        axios.get('/api/searchposts/' + query + '?page=1').then(function (res) {
           _this.posts = res.data;
-          _this.issearching = true;
         })["catch"](function (err) {
           console.log(err);
         });
@@ -2447,6 +2447,8 @@ __webpack_require__.r(__webpack_exports__);
         var oldposts = JSON.parse(localStorage.getItem('posts'));
         this.posts = oldposts;
       }
+
+      this.issearching = false;
     }
   },
   mounted: function mounted() {

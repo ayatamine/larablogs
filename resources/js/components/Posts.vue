@@ -63,11 +63,12 @@ import categories from './Categories.vue'
         watch:{
           searchpost(query){
                   if(query.length > 0){
+                    this.issearching =true;
                     console.log(query)
-                    axios.get('/api/searchposts/'+query)
+                    axios.get('/api/searchposts/'+query+'?page=1')
                     .then(res => {
                        this.posts = res.data;
-                       this.issearching =true;
+
                     })
                     .catch(err => {
                       console.log(err)
@@ -76,6 +77,7 @@ import categories from './Categories.vue'
                     let oldposts = JSON.parse(localStorage.getItem('posts')) ;
                     this.posts = oldposts;
                   }
+                  this.issearching = false
           }
         },
         mounted() {
