@@ -43,7 +43,7 @@
         </div>
 
         <!-- Single Comment -->
-        <div class="media mb-4" v-for="(comment,i) in post.comments" :key="i">
+        <div class="media mb-4 comment" v-for="(comment,i) in post.comments" :key="i">
           <img class="d-flex mr-3 rounded-circle" :src="'/img/'+comment.user.profile_img" style="height:50px;width:50px" alt="">
           <div class="media-body">
             <h5 class="mt-0"><strong>{{comment.user.name}}</strong></h5>
@@ -78,7 +78,8 @@ export default {
         console.log(res)
         this.post = res.data
         this.post_id = this.post.id;
-        this.comments = this.post.comments
+        this.comments = this.post.comments;
+        this.initializeListener()
       })
       .catch(err =>{
         console.log(err)
@@ -95,6 +96,18 @@ export default {
      updateToken(){
        let token =JSON.parse(localStorage.getItem('userToken'));
        this.$store.commit('setUserToken',token)
+     },
+     initializeListener(){
+       Echo.private(`newComment.${this.post_id}`)
+      .listen('NewComment', (e) => {
+          console.log(e);
+          this.comments.unshift(e.comment);
+          document.querySelectorAll('.comment').forEach(item =>{
+             item.classList.remove('new')
+          })
+          document.querySelectorAll('.comment')[0].classList.add('new')
+          console.log('listen to new comment event');
+      });
      }
    },
    computed:{
@@ -104,3 +117,24 @@ export default {
    }
 }
 </script>
+<style scoped>
+.comment{
+     padding: 0.5rem;
+    background: #fff;
+}
+
+/* The element to apply the animation to */
+.comment.new {
+  background-color: #fff;
+  animation-name: newComment ;
+  -webkit-animation-name: newComment;
+  animation-duration: 6s;
+  -webkit-animation-duration: 6s;
+  animation-iteration-count: 1;
+  -webkit-animation-iteration-count: 1;
+}
+@keyframes newComment {
+  from {background-color: rgb(241, 245, 24);}
+  to {background-color: inherit;}
+}
+</style>

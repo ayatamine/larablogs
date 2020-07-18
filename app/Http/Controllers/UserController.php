@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
-
+use Auth;
 class UserController extends Controller
 {
     //
@@ -56,5 +56,18 @@ class UserController extends Controller
     public function details()
     {
         return response()->json(['user' => auth()->user()], 200);
+    }
+    public function getUnreadNotifications(){
+        $notifications = Auth::user()->unreadNotifications;
+        return response()->json($notifications);
+    }
+    public function getAllNotifications(){
+        $notifications = Auth::user()->notifications;
+        return response()->json($notifications);
+    }
+    public function markNotificationAsRead(Request $request){
+        $notification = Auth::user()->notifications()->where('id',$request->id)->first();
+        $notification->markAsRead();
+        return response()->json(['msg'=>'ok']);
     }
 }

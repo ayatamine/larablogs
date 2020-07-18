@@ -41,7 +41,9 @@ const store = new Vuex.Store({
     state: {
         userToken: null,
         user: null,
-        EditedPost: {}
+        EditedPost: {},
+        notifications: []
+
     },
     getters: { //center
         isLogged(state) {
@@ -71,6 +73,13 @@ const store = new Vuex.Store({
         },
         setUser(state, user) {
             state.user = user
+            Echo.connector.pusher.config.auth.headers.Authorization = `Bearer ${state.userToken}`;
+            Echo.private('App.User.' + state.user.id)
+                .notification((notification) => {
+                    console.log('notif', notification);
+                    state.notifications.unshift(notification)
+                });
+
         },
         logout(state) {
             state.userToken = null;

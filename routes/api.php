@@ -21,10 +21,14 @@ Route::apiResource('posts','PostController');
 Route::apiResource('categories','CategoryController');
 Route::get('category/{slug}/posts','PostController@categoryPosts');
 Route::get('searchposts/{query}','PostController@searchposts');
-
+Route::post('login', 'UserController@login')->name('login');
+Route::post('register', 'UserController@register')->name('register');
 Route::middleware('auth:api')->group(function () {
     Route::get('user', 'UserController@details');
     Route::post('comment/create', 'CommentController@store');
+    Route::get('getUnreadNotifications', 'UserController@getUnreadNotifications');
+    Route::get('getAllNotifications', 'UserController@getAllNotifications');
+    Route::put('markNotificationAsRead', 'UserController@markNotificationAsRead');
 
 });
 Route::group(['prefix'=>'/admin','middleware'=>'auth:api'],function(){

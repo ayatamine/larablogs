@@ -3,6 +3,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#">Ayat Amine</a>
+      <notificationBar/>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -44,11 +45,15 @@
 </template>
 
 <script>
+import notificationBar from './NotificationBar'
 export default {
   created(){
       this.updateToken()
       this.setUser();
-  },methods:{
+  },components:{
+    notificationBar
+  }
+  ,methods:{
 
      updateToken(){
        let token =JSON.parse(localStorage.getItem('userToken'));

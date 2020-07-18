@@ -59,5 +59,6 @@ window.Echo = new Echo({
         headers: {
             Authorization: JSON.parse(localStorage.getItem('userToken'))
         }
-    }
+    },
+
 });

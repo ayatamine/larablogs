@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Comment;
 use Illuminate\Http\Request;
 use Auth;
+use App\Post;
+use App\Events\NewComment;
+use App\Notifications\NotifyOwner;
 class CommentController extends Controller
 {
     /**
@@ -40,6 +43,14 @@ class CommentController extends Controller
             'user_id'=>Auth::id(),
             'post_id'=>$request->post_id
         ]);
+        broadcast(new NewComment($comment->user,$comment))->toOthers();
+        $post = Post::with('user')->find($comment->post_id);
+        $post_owner = $post->user;
+        if($post_owner->id != $comment->user_id){
+            $post_owner->notify(new NotifyOwner($comment,$post));
+        }
+
+
         return response()->json([
             'id'=>$comment->id,
             'body'=>$comment->body,

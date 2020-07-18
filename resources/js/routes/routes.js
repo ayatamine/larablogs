@@ -7,12 +7,14 @@ import Post from '../components/Posts.vue'
 import PostDetails from '../components/PostDetails.vue';
 import CategoryPosts from '../components/CategoryPosts.vue';
 import AdminIndex from '../components/admin/AdminIndex.vue';
+import AllNotifications from '../components//allNotifications.vue';
 
 const routes = [
     { path: '/', component: Post, name: 'Post' },
     { path: '/post/:slug', component: PostDetails, name: 'PostDetails' },
     { path: '/category/:slug/posts', component: CategoryPosts, name: 'CategoryPosts' },
     { path: '/admin', component: AdminIndex, name: 'AdminIndex' },
+    { path: '/notifications', component: AllNotifications, name: 'allNotifications' },
 ];
 
 const router = new VueRouter({
